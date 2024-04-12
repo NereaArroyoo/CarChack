@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        .reset-container {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .frame {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .frame h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: calc(100% - 22px);
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .warning {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reset-container">
+        <div class="frame">
+            <h2>Recuperar Contraseña</h2>
+            <form id="reset-form">
+                <div class="form-group">
+                    <label for="nif">NIF:</label>
+                    <input type="text" id="nif" name="nif" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Nueva Contraseña:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirmar Nueva Contraseña:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <button type="submit">Aceptar</button>
+                <div class="warning" id="password-warning" style="display: none;">Las contraseñas deben coincidir y tener al menos 10 caracteres, 1 número y 1 mayúscula.</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resetForm = document.getElementById('reset-form');
+            const newPasswordInput = document.getElementById('new-password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const passwordWarning = document.getElementById('password-warning');
+
+            resetForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const newPasswordValue = newPasswordInput.value.trim();
+                const confirmPasswordValue = confirmPasswordInput.value.trim();
+
+                // Verificar si las contraseñas coinciden
+                if (newPasswordValue !== confirmPasswordValue) {
+                    passwordWarning.textContent = "Las contraseñas no coinciden.";
+                    passwordWarning.style.display = 'block';
+                    return;
+                }
+
+                // Verificar si la contraseña cumple con los requisitos
+                const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{10,}$/;
+                if (!passwordRegex.test(newPasswordValue)) {
+                    passwordWarning.textContent = "La contraseña debe tener al menos 10 caracteres, 1 número y 1 mayúscula.";
+                    passwordWarning.style.display = 'block';
+                    return;
+                }
+
+                // Si todo está bien, redireccionar a la página de inicio de sesión
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('background-image.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-end; /* Alineación a la derecha */
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: auto;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px; 
+        }
+
+        .tab:last-child {
+            margin-right: 0; 
+        }
+
+        .tab:hover {
+            background-color: #0056b3;
+        }
+
+        #logo {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Estilos para el combobox */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1;}
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+        /* Estilos para el label del NIF */
+        #nif-label {
+            border: 2px solid #dc3545; /* Ajuste del grosor y color del borde */
+            border-radius: 5px;
+            padding: 5px; /* Reducción del padding */
+            margin-top: 10px; /* Espacio desde el botón "Cerrar Sesión" */
+            margin-left: auto; /* Centrado en el borde derecho */
+            margin-right: 20px; /* Margen derecho */
+            font-size: 12px; /* Tamaño de la fuente reducido */
+        }
+
+        .nif-container {
+            margin-left: auto; /* Para pegar al borde derecho */
+            margin-right: 20px; /* Margen derecho */
+        }
+
+        /* Estilos para el botón de cerrar sesión */
+        #logout-button {
+            padding: 10px 20px;
+            background-color: #dc3545; /* Color de fondo rojo */
+            color: #fff;
+            border: 2px solid #dc3545; /* Ajuste del grosor y color del borde */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+            width: 150px;
+        }
+
+        #logout-button:hover {
+            background-color: #c82333; /* Cambio del color al pasar el mouse */
+            border-color: #c82333; /* Cambio del color del borde al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <!-- Juntando los primeros tres botones -->
+            <div class="dropdown">
+                <div class="tab dropbtn">Servicios</div>
+                <div class="dropdown-content">
+                    <a href="#">Servicio 1</a>
+                    <a href="#">Servicio 2</a>
+                    <a href="#">Servicio 3</a>
+                    <a href="#">Servicio 4</a>
+                    <a href="#">Servicio 5</a>
+                </div>
+            </div>
+            <div class="tab" onclick="showUserData()">Mis Datos</div>
+            <div class="tab">Contacto</div>
+        </div>
+        <!-- Botón para cerrar sesión -->
+        <button id="logout-button" onclick="logout()">Cerrar Sesión</button>
+    </div>
+    <!-- Contenedor del NIF -->
+    <div class="nif-container">
+        <label id="nif-label">NIF: <span id="nif-value"></span></label><!-- Aquí se insertará el NIF con JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener el NIF almacenado en localStorage y mostrarlo
+            const userData = JSON.parse(localStorage.getItem("userData"));
+            if (userData) {
+                document.getElementById('nif-value').textContent = userData.nif;
+            }
+        });
+
+        // Función para mostrar los datos del usuario
+        function showUserData() {
+            const userData = JSON.parse(localStorage.getItem("userData"));
+            if (userData) {
+                var vehicles = userData.vehicles.join(', ');
+                alert(`Nombre: ${userData.name}\nNIF: ${userData.nif}\nTeléfono: ${userData.phone}\nVehículos: ${vehicles}`);
+            } else {
+                alert("No se encontraron datos de usuario.");
+            }
+        }
+
+        // Función para cerrar sesión (borrar los datos almacenados)
+        function logout() {
+            localStorage.removeItem('userData');
+            window.location.href = 'login.html'; // Redirigir a la página de inicio de sesión
+        }
+    </script>
+</body>
+</html>
